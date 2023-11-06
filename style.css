@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Times New Roman", Times, serif;
+  width: auto;
+}
+.box {
+  background-color: lightblue;
+}
+
+.container {
+  background-color: cadetblue;
+}
+.btn {
+  width: 10%;
+  padding: 10px;
+  margin-left: 60px;
+  background-color: chocolate;
+}
+
+h1 {
+  text-align: center;
+}
+h3 {
+  font-size: 20px;
+}
+
+#result {
+  display: none;
+}

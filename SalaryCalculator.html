@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+
+    <title>Salary Calculator</title>
+  </head>
+  <body>
+    <div class="box">
+      <h1>Salary Calculator</h1>
+
+      <div class="container">
+        <label for="empName" > Employee Name:</label><br />
+        <input type="text" id="empname" name="empname" placeholder=" EmployeeName..."/><br />
+        <label for="grosspay">  Gross Pay:</label><br />
+        <input type="text" id="grosspay" name="grosspay" placeholder=" GrossPay..." />
+      </div>
+
+      <br />
+
+      <div class="container">
+        <h5>Additions in Dollars</h5>
+        <label for="bonus">Bonus $:</label><br />
+        <input type="text" id="bonus" name="bonus" placeholder="bonus..."/><br />
+        <label for="allowance">Allowance $:</label><br />
+        <input type="text" id="allowance" name="allowance" placeholder="Allowance... " />
+      </div>
+      <br />
+      <div class="container">
+        <h5>Deductions in Percentage:</h5>
+        <label for="incometax">Income Tax %:</label><br />
+        <input type="text" id="it" name="incometax" placeholder="Income tax" /><br />
+        <label for="empinsurance">Employment Insurance %:</label><br />
+        <input type="text" id="ei" name="empinsurance" placeholder="Emp Insurance"/><br />
+        <label for="canadapension">Canada Pension Plan %:</label><br />
+        <input type="text" id="cpp" name="canadapension"placeholder="CPP value"/><br />
+      </div>
+      <br />
+      <div class="container" id="gender">
+        <h5>Choose the gender of Employee</h5>
+        <br />
+
+        <input type="radio" name="gender" value="Male" id="male" />
+        <label for="male" class="form">Male</label>
+
+        <br />
+
+        <input type="radio" name="gender" value="Female" id="female" />
+        <label for="female" class="form"> Female </label>
+      </div>
+
+      <br />
+
+      <div class="container" id="dependent">
+        <h5>Choose the number of dependents</h5>
+        
+        <input type="radio" name="dependants" value="2" id="2" />
+        <label for="2" class="form">2</label>
+        <br />
+
+        <input type="radio" name="dependants" value="3" id="3" />
+        <label for="3" class="form">3</label>
+        <br />
+
+        <input type="radio" name="dependants" value="4" id="4" />
+        <label for="4" class="form">4</label>
+        <br />
+      </div>
+
+      <br />
+
+      <div class="container" id="result" >
+        <label for="empname" id="name">EmployeeName: </label>
+        <br />
+        <label for="grosspay" id="grossPay">Gross Salary: </label>
+        <br />
+        <label for="deductions" id="Deductions">Deductions: </label>
+        <br />
+        <label for="Additions" id="additions">Additions: </label>
+        <br />
+        <label for="FinalSalary" id="netP">Final salary: </label>
+        <br />
+      </div>
+      <br />
+      <div>
+        <button type="button" class="btn btn-primary" onclick="Calculate();hide();">
+          Calculate
+        </button>
+      </div>
+    </form>
+  </div>
+
+    <script>
+      function Calculate() {
+        var empname = document.getElementById("empname").value;
+        
+        document.getElementById("name").innerHTML =
+          "EmployeeName:" + " " + empname;
+        var grosspay = parseFloat(document.getElementById("grosspay").value);
+        
+        document.getElementById("grossPay").innerHTML =
+          "GrossPay:" + " " + grosspay;
+
+        var bonus = parseFloat(document.getElementById("bonus").value);
+        
+        var allowance = parseFloat(document.getElementById("allowance").value);
+        
+        var totaladditions = bonus + allowance;
+        document.getElementById("additions").innerHTML =
+          "Additions:" + " " + totaladditions;
+
+        var incometax = document.getElementById("it").value;
+       
+        var empinsurance = document.getElementById("ei").value;
+       
+        var canadapension = document.getElementById("cpp").value;
+        
+
+        var maleRadio = document.getElementById("male").checked;
+        var femaleRadio = document.getElementById("female").checked;
+
+       
+        
+        //dependants
+        var dependentNum = "";
+        var dependants = document.getElementsByName("dependants");
+        for (var i = 0; i < (dependants.length); i++) {
+          if (dependants[i].checked) {
+            dependentNum = dependants[i].value;
+          }
+        }
+
+        var dependentNumber = Number(dependentNum);
+
+        if (maleRadio) {
+          switch (dependentNumber) {
+            case 2:
+              var totalDeductions =
+                (grosspay * incometax) / 100 +
+                (grosspay * empinsurance) / 100 +
+                (grosspay * canadapension) / 100;
+              var totalDeductions = parseFloat(totalDeductions);
+            
+
+              document.getElementById("Deductions").innerHTML =
+                "Deductions:" + " " + totalDeductions;
+              var netpay = parseFloat(
+                grosspay - totalDeductions + totaladditions
+              );
+              document.getElementById("netP").innerHTML =
+                "NetPay:" + " " + netpay;
+              break;
+              //document.getElementById("result").style.display = "block";
+              break;
+            case 3:
+              var totalDeductions =
+                (grosspay * (incometax - 0.01)) / 100 +
+                (grosspay * empinsurance) / 100 +
+                (grosspay * canadapension) / 100;
+              document.getElementById("Deductions").innerHTML =
+                "Deductions:" + " " + totalDeductions;
+              var netpay = parseFloat(
+                grosspay - totalDeductions + totaladditions
+              );
+              document.getElementById("netP").innerHTML =
+                "NetPay:" + " " + netpay;
+              break;
+            case 4:
+              var totalDeductions =
+                (grosspay * (incometax - 0.02)) / 100 +
+                (grosspay * empinsurance) / 100 +
+                (grosspay * canadapension) / 100;
+              document.getElementById("Deductions").innerHTML =
+                "Deductions:" + " " + totalDeductions;
+              var netpay = parseFloat(
+                grosspay - totalDeductions + totaladditions
+              );
+              document.getElementById("netP").innerHTML =
+                "NetPay:" + " " + netpay;
+              break;
+          }
+        } else if (femaleRadio) {
+         // var dependents = document.getElementsByName("dependents").value;
+          switch (dependentNumber) {
+            case 2:
+              var totalDeductions =
+                (grosspay * (incometax - 0.03)) / 100 +
+                (grosspay * empinsurance) / 100 +
+                (grosspay * canadapension) / 100;
+              document.getElementById("Deductions").innerHTML =
+                "Deductions:" + " " + totalDeductions;
+              var netpay = parseFloat(
+                grosspay - totalDeductions + totaladditions
+              );
+              document.getElementById("netP").innerHTML =
+                "NetPay:" + " " + netpay;
+              break;
+            case 3:
+              var totalDeductions =
+                (grosspay * (incometax - 0.04)) / 100 +
+                (grosspay * empinsurance) / 100 +
+                (grosspay * canadapension) / 100;
+              document.getElementById("Deductions").innerHTML =
+                "Deductions:" + " " + totalDeductions;
+              var netpay = parseFloat(
+                grosspay - totalDeductions + totaladditions
+              );
+              document.getElementById("netP").innerHTML =
+                "NetPay:" + " " + netpay;
+              break;
+            case 4:
+              var totalDeductions =
+                (grosspay * (incometax - 0.05)) / 100 +
+                (grosspay * empinsurance) / 100 +
+                (grosspay * canadapension) / 100;
+              document.getElementById("Deductions").innerHTML =
+                "Deductions:" + " " + totalDeductions;
+              var netpay = parseFloat(
+                grosspay - totalDeductions + totaladditions
+              );
+              document.getElementById("netP").innerHTML =
+                "NetPay:" + " " + netpay;
+              break;
+          }
+        }
+      }
+
+      function hide() {
+        var x = document.getElementById("result");
+        x.style.display="block";
+      
+        } 
+      
+    </script>
+  </body>
+</html>
